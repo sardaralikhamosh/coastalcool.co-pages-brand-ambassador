@@ -1,0 +1,155 @@
+{% comment %}
+  Section: Circular Images Gallery
+  Description: Display 4 circular images in a row showcasing brand ambassadors
+{% endcomment %}
+
+<style>
+  .circular-gallery-section {
+    padding: 40px 20px;
+    background: #ffffff;
+  }
+
+  .circular-gallery-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .circular-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    justify-items: center;
+  }
+
+  .circular-gallery-item {
+    width: 100%;
+    max-width: 170px;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .circular-gallery-item:hover {
+    transform: scale(1.05);
+  }
+
+  .circular-gallery-image-wrapper {
+    width: 100%;
+    padding-bottom: 100%;
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    border: 4px solid #ffffff;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+
+  .circular-gallery-item:hover .circular-gallery-image-wrapper {
+    box-shadow: 0 12px 35px rgba(255, 105, 180, 0.3);
+    border-color: hsl(333.39deg 80.42% 71.96%);
+  }
+
+  .circular-gallery-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (max-width: 768px) {
+    .circular-gallery-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .circular-gallery-item {
+      max-width: 150px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .circular-gallery-section {
+      padding: 30px 15px;
+    }
+
+    .circular-gallery-grid {
+      gap: 15px;
+    }
+  }
+</style>
+
+<section class="circular-gallery-section">
+  <div class="circular-gallery-container">
+    <div class="circular-gallery-grid">
+      {% for block in section.blocks %}
+        {% if block.type == 'image' %}
+          <div class="circular-gallery-item" {{ block.shopify_attributes }}>
+            <div class="circular-gallery-image-wrapper">
+              {% if block.settings.image != blank %}
+                <img 
+                  src="{{ block.settings.image | image_url: width: 400 }}" 
+                  alt="{{ block.settings.image_alt | default: 'Brand Ambassador' }}"
+                  class="circular-gallery-image"
+                  loading="lazy"
+                >
+              {% else %}
+                <img 
+                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect fill='%23f0f0f0' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%23999' font-family='sans-serif' font-size='40'%3EImage%3C/text%3E%3C/svg%3E"
+                  alt="Placeholder"
+                  class="circular-gallery-image"
+                >
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Circular Images Gallery",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Image Alt Text",
+          "default": "Brand Ambassador"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Circular Images Gallery",
+      "blocks": [
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

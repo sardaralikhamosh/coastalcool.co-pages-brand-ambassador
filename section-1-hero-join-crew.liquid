@@ -1,0 +1,212 @@
+{% comment %}
+  Section: Brand Ambassador Hero - "Join The Crew"
+  Description: Hero section with logo, heading, description, CTA button and login link
+{% endcomment %}
+
+<style>
+  .brand-hero-section {
+    padding: 80px 20px 60px;
+    text-align: center;
+    background: #ffffff;
+  }
+
+  .brand-hero-container {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .brand-hero-logo {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 30px;
+    background: hsl(333.39deg 80.42% 71.96%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(255, 105, 180, 0.2);
+  }
+
+  .brand-hero-logo img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+  }
+
+  .brand-hero-title {
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 48px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    margin: 0 0 20px;
+    color: #000000;
+    text-transform: uppercase;
+  }
+
+  .brand-hero-description {
+    font-family: 'Georgia', serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #666666;
+    margin: 0 0 35px;
+    max-width: 580px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .brand-hero-cta {
+    display: inline-block;
+    padding: 14px 50px;
+    background: #000000;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 25px;
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 2px solid #000000;
+  }
+
+  .brand-hero-cta:hover {
+    background: hsl(333.39deg 80.42% 71.96%);
+    border-color: hsl(333.39deg 80.42% 71.96%);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 105, 180, 0.3);
+  }
+
+  .brand-hero-login {
+    margin-top: 20px;
+  }
+
+  .brand-hero-login-text {
+    font-family: 'Georgia', serif;
+    font-size: 14px;
+    color: #999999;
+    margin-bottom: 5px;
+  }
+
+  .brand-hero-login-link {
+    color: hsl(333.39deg 80.42% 71.96%);
+    text-decoration: none;
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-weight: 600;
+    transition: opacity 0.3s ease;
+  }
+
+  .brand-hero-login-link:hover {
+    opacity: 0.7;
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .brand-hero-section {
+      padding: 60px 20px 40px;
+    }
+
+    .brand-hero-title {
+      font-size: 36px;
+      letter-spacing: 1px;
+    }
+
+    .brand-hero-description {
+      font-size: 15px;
+    }
+
+    .brand-hero-cta {
+      padding: 12px 40px;
+      font-size: 14px;
+    }
+  }
+</style>
+
+<section class="brand-hero-section">
+  <div class="brand-hero-container">
+    <div class="brand-hero-logo">
+      {% if section.settings.logo != blank %}
+        <img src="{{ section.settings.logo | image_url: width: 100 }}" alt="{{ shop.name }}" loading="lazy">
+      {% else %}
+        <svg width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="white"/>
+          <path d="M2 17L12 22L22 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2 12L12 17L22 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      {% endif %}
+    </div>
+
+    <h1 class="brand-hero-title">{{ section.settings.title }}</h1>
+    
+    <div class="brand-hero-description">
+      {{ section.settings.description }}
+    </div>
+
+    <a href="{{ section.settings.cta_link }}" class="brand-hero-cta">
+      {{ section.settings.cta_text }}
+    </a>
+
+    <div class="brand-hero-login">
+      <p class="brand-hero-login-text">{{ section.settings.login_text }}</p>
+      <a href="{{ section.settings.login_link }}" class="brand-hero-login-link">{{ section.settings.login_link_text }}</a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Brand Ambassador Hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo Image"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "JOIN THE CREW"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Join the Coastal Cool crew and live the paradise lifestyle with our eco-friendly swimwear and beachwear. Enjoy commission, get first access to new drops, and share the coastal vibe wherever you go."
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA Button Text",
+      "default": "Apply now"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA Button Link"
+    },
+    {
+      "type": "text",
+      "id": "login_text",
+      "label": "Login Text",
+      "default": "Already a member?"
+    },
+    {
+      "type": "text",
+      "id": "login_link_text",
+      "label": "Login Link Text",
+      "default": "Log in"
+    },
+    {
+      "type": "url",
+      "id": "login_link",
+      "label": "Login Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand Ambassador Hero"
+    }
+  ]
+}
+{% endschema %}
