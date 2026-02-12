@@ -80,13 +80,11 @@
     border-radius: 10px;
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    display: block;
-    text-decoration: none;
   }
 
   .instagram-item:hover {
     transform: scale(1.05);
-    box-shadow: 0 10px 30px rgba(241, 129, 178, 0.25);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     z-index: 10;
   }
 
@@ -110,13 +108,12 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(241, 129, 178, 0.85), rgba(241, 126, 177, 0.7));
+    background: linear-gradient(135deg, rgba(255, 105, 180, 0.8), rgba(255, 0, 128, 0.6));
     opacity: 0;
     transition: opacity 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    pointer-events: none;
   }
 
   .instagram-item:hover .instagram-overlay {
@@ -126,26 +123,12 @@
   .instagram-overlay-icon {
     width: 40px;
     height: 40px;
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.1);
-    }
-    100% {
-      transform: scale(1);
-    }
   }
 
   .instagram-overlay-icon svg {
     width: 100%;
     height: 100%;
     fill: white;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
   }
 
   @media (max-width: 1200px) {
@@ -191,9 +174,6 @@
       gap: 10px;
     }
   }
-  .amazon-follow-btn span img {
-    max-width: 200px;
-}
 </style>
 
 <section class="instagram-section">
@@ -209,23 +189,12 @@
         </span>
         {{ section.settings.follow_text }}
       </a>
-       <a href="https://www.amazon.com/stores/page/02EDDF2F-2F20-4932-AFBF-2DC5953A8DF6" class="amazon-follow-btn" target="_blank" rel="noopener">
-        <span class="instagram-icon">
-          <img src="https://cdn.shopify.com/s/files/1/0745/6656/6187/files/amazon-icon.png?v=1770858191">
-        </span>
-      </a>
     </div>
 
     <div class="instagram-grid">
       {% for block in section.blocks %}
         {% if block.type == 'image' %}
-          <a 
-            href="{{ section.settings.instagram_url | default: 'https://www.instagram.com/aloesunofficial/' }}" 
-            class="instagram-item" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            {{ block.shopify_attributes }}
-          >
+          <div class="instagram-item" {{ block.shopify_attributes }}>
             {% if block.settings.image != blank %}
               <img 
                 src="{{ block.settings.image | image_url: width: 500 }}" 
@@ -248,7 +217,7 @@
                 </svg>
               </span>
             </div>
-          </a>
+          </div>
         {% endif %}
       {% endfor %}
     </div>
@@ -274,8 +243,7 @@
     {
       "type": "url",
       "id": "instagram_url",
-      "label": "Instagram URL",
-      "info": "This URL will be used for all image clicks. Default: https://www.instagram.com/aloesunofficial/"
+      "label": "Instagram URL"
     }
   ],
   "blocks": [

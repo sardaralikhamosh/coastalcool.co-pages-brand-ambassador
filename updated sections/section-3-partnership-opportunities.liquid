@@ -1,0 +1,409 @@
+{% comment %}
+  Section: Partnership Opportunities
+  Description: Title, tags, and image carousel section
+{% endcomment %}
+
+<style>
+  .partnership-section {
+    padding: 60px 20px;
+    background: #fafafa;
+  }
+
+  .partnership-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .partnership-title {
+    font-family: 'Poppins', 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 30px;
+    color: #2e2a39;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .partnership-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 50px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .partnership-tag {
+    padding: 8px 18px;
+    background: #f0f0f0;
+    border-radius: 10px;
+    font-family: 'Poppins', 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #555555;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+  }
+
+  .partnership-tag:hover {
+    background: hsl(333.39deg 80.42% 71.96%);
+    color: #ffffff;
+    border-color: hsl(333.39deg 80.42% 71.96%);
+    transform: translateY(-2px);
+  }
+
+  .partnership-carousel {
+    position: relative;
+    overflow: hidden;
+    padding: 0 50px;
+  }
+
+  .partnership-carousel-track {
+    display: flex;
+    gap: 20px;
+    transition: transform 0.5s ease;
+    align-items: center;
+  }
+
+  .partnership-carousel-item {
+    min-width: calc(25% - 15px);
+    flex-shrink: 0;
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .partnership-carousel-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(255, 105, 180, 0.25);
+  }
+
+  .partnership-carousel-item::before {
+    content: '';
+    display: block;
+    padding-bottom: 140%;
+  }
+
+  .partnership-carousel-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .partnership-carousel-play {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 35px;
+    height: 35px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .partnership-carousel-play::after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 10px solid hsl(333.39deg 80.42% 71.96%);
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    margin-left: 3px;
+  }
+
+  .partnership-carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background: hsl(333.39deg 80.42% 71.96%);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+    box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+  }
+
+  .partnership-carousel-btn:hover {
+    background: hsl(333.39deg 80.42% 65%);
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  .partnership-carousel-btn.prev {
+    left: 0;
+  }
+
+  .partnership-carousel-btn.next {
+    right: 0;
+  }
+
+  .partnership-carousel-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: white;
+  }
+
+  @media (max-width: 1024px) {
+    .partnership-carousel-item {
+      min-width: calc(33.333% - 14px);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .partnership-section {
+      padding: 40px 15px;
+    }
+
+    .partnership-title {
+      font-size: 30px;
+      margin-bottom: 25px;
+    }
+
+    .partnership-carousel {
+      padding: 0 40px;
+    }
+
+    .partnership-carousel-item {
+      min-width: calc(50% - 10px);
+    }
+
+    .partnership-carousel-btn {
+      width: 35px;
+      height: 35px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .partnership-title {
+      font-size: 24px;
+      letter-spacing: 1px;
+    }
+
+    .partnership-tag {
+      font-size: 12px;
+      padding: 6px 14px;
+    }
+
+    .partnership-carousel-item {
+      min-width: calc(100% - 10px);
+    }
+  }
+</style>
+
+<section class="partnership-section">
+  <div class="partnership-container">
+    <h2 class="partnership-title">{{ section.settings.title }}</h2>
+
+    {% if section.settings.show_tags %}
+      <div class="partnership-tags">
+        {% for block in section.blocks %}
+          {% if block.type == 'tag' %}
+            <span class="partnership-tag" {{ block.shopify_attributes }}>{{ block.settings.tag_text }}</span>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="partnership-carousel">
+      <button class="partnership-carousel-btn prev" onclick="moveCarousel(-1)">
+        <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+      </button>
+
+      <div class="partnership-carousel-track" id="carouselTrack">
+        {% for block in section.blocks %}
+          {% if block.type == 'image' %}
+            <div class="partnership-carousel-item" {{ block.shopify_attributes }}>
+              {% if block.settings.image != blank %}
+                <img 
+                  src="{{ block.settings.image | image_url: width: 600 }}" 
+                  alt="{{ block.settings.image_alt | default: 'Partnership' }}"
+                  class="partnership-carousel-image"
+                  loading="lazy"
+                >
+              {% else %}
+                <img 
+                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 560'%3E%3Crect fill='%23f0f0f0' width='400' height='560'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%23999' font-family='sans-serif' font-size='30'%3EImage%3C/text%3E%3C/svg%3E"
+                  alt="Placeholder"
+                  class="partnership-carousel-image"
+                >
+              {% endif %}
+              {% if block.settings.is_video %}
+                <div class="partnership-carousel-play"></div>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <button class="partnership-carousel-btn next" onclick="moveCarousel(1)">
+        <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  let currentIndex = 0;
+
+  function moveCarousel(direction) {
+    const track = document.getElementById('carouselTrack');
+    const items = track.querySelectorAll('.partnership-carousel-item');
+    const itemsToShow = window.innerWidth <= 480 ? 1 : window.innerWidth <= 768 ? 2 : window.innerWidth <= 1024 ? 3 : 4;
+    const maxIndex = Math.max(0, items.length - itemsToShow);
+
+    currentIndex += direction;
+    
+    if (currentIndex < 0) currentIndex = 0;
+    if (currentIndex > maxIndex) currentIndex = maxIndex;
+
+    const itemWidth = items[0].offsetWidth;
+    const gap = 20;
+    const offset = -(currentIndex * (itemWidth + gap));
+    
+    track.style.transform = `translateX(${offset}px)`;
+  }
+
+  // Reset carousel on window resize
+  window.addEventListener('resize', () => {
+    currentIndex = 0;
+    const track = document.getElementById('carouselTrack');
+    track.style.transform = 'translateX(0)';
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Partnership Opportunities",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "PARTNERSHIP OPPORTUNITIES"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tags",
+      "label": "Show Tags",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tag",
+      "name": "Tag",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tag_text",
+          "label": "Tag Text",
+          "default": "Tag"
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Carousel Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Image Alt Text"
+        },
+        {
+          "type": "checkbox",
+          "id": "is_video",
+          "label": "Show Play Button",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Partnership Opportunities",
+      "blocks": [
+        {
+          "type": "tag",
+          "settings": {
+            "tag_text": "Discount codes"
+          }
+        },
+        {
+          "type": "tag",
+          "settings": {
+            "tag_text": "Additional opportunities"
+          }
+        },
+        {
+          "type": "tag",
+          "settings": {
+            "tag_text": "Gifting"
+          }
+        },
+        {
+          "type": "tag",
+          "settings": {
+            "tag_text": "Affiliate marketing"
+          }
+        },
+        {
+          "type": "tag",
+          "settings": {
+            "tag_text": "Content creation"
+          }
+        },
+        {
+          "type": "tag",
+          "settings": {
+            "tag_text": "Usage rights"
+          }
+        },
+        {
+          "type": "tag",
+          "settings": {
+            "tag_text": "Campaigns"
+          }
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
